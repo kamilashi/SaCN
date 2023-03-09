@@ -53,21 +53,14 @@ for i in range(0, len(enum_attributes)):
     stage = Stage(i);
     stages.append(stage);
 
-# dev stuff
-class Command:
-    def __init__(self, name, functiion):
-        self.name = name;
-        self.function = functiion;
 
 def main(msg):
     print("debug info here\n");
     for i in range(0, len(stages)):
-        if (msg.casefold() == stages[i].entry_password.casefold()):
-            with open(save_path, 'r') as openfile:
-                actor_dict = json.load(openfile);
-            actor = Actor(actor_dict['next_stage'], actor_dict['attributes']);
+        if (msg.lower() == stages[i].entry_password.lower()):
+            actor = loadActor();
             actor.attributes[stages[i].stage_name]+=1;
-            save(actor);
+            saveActor(actor);
 
             response = "\n" + \
                        fDiscord.bold(stages[i].entry_text) + "\n" + \
@@ -77,11 +70,11 @@ def main(msg):
                        "keep it safe!\n\n" + \
                        stages[i].reward_riddle;
 
-            print(actor.__dict__);
+            #print(actor.__dict__);
             return(response);
 
 
-        
+
 
     return "..."; #implement pick random idle line
 
@@ -90,19 +83,32 @@ if __name__ == "__main__":
     main(sys.argv[1]);
 
 
-def save(obj):
+def saveActor(obj):
     json_object = json.dumps(obj.__dict__, indent=4)
     with open(save_path, "w+") as outfile:
         outfile.write(json_object)
     return;
+
+def loadActor():
+    with open(save_path, 'r') as openfile:
+        actor_dict = json.load(openfile);
+    actor = Actor(actor_dict['next_stage'], actor_dict['attributes']);
+    return actor;
 
 def init():
     if(os.path.exists(save_path)):
         return;
     else:
         actor_default = Actor(0, dict.fromkeys(enum_attributes, 0));
-        save(actor_default);
+        saveActor(actor_default);
         return;
+
+def actorToString():
+    actor = loadActor();
+    string = fDiscord.italic("Character: Nuhrat");
+    string += "\n" + str(actor.attributes);
+    return string;
 
 def reset():
     os.remove(save_path);
+

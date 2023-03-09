@@ -19,7 +19,40 @@ intents.members = True
 intents.message_content = True
 #client = discord.Client(intents=intents);
 bot = commands.Bot(command_prefix='$', intents=intents)
+# dev stuff
+class Commands:
+    def getActor(cls):
+        return process.actorToString()
+    def Reset(cls):
+        process.reset();
+        return "reset successful"
 
+# dev prefix = % - remove later!!
+commands = {"nuhrat": Commands.getActor(Commands),  "%reset": Commands.Reset(Commands)};
+
+
+@bot.event
+async def on_message(message):
+    if message.author == bot.user:
+        return
+    if isinstance(message.channel, discord.DMChannel):
+
+        # try to detect custom command first (including dev)
+        if (message.content.lower() in commands):
+            return_message = commands[message.content.lower()];
+            await message.author.send(return_message);
+            return;
+
+        return_message = process.main(message.content);
+        await message.author.send(return_message);
+
+        # encode result to RSA later:
+        #encodedMessage = encode_text.main(True, response);
+        #filename = "c.txt"
+        #encoded_file = discord.File("./ciphertext/c.txt", filename=filename)
+        #await message.author.send(file=encoded_file);
+    else:
+        await bot.process_commands(message)
 
 @bot.event
 async def on_ready():
@@ -56,29 +89,7 @@ async def decode(ctx):
         print(exc_err);
         await ctx.send(exc_err);
 
-@bot.command()
-async def echo(ctx, arg):
-    print("on command echo")
-    await ctx.send(arg)
 
-@bot.event
-async def on_message(message):
-    if message.author == bot.user:
-        return
-    if isinstance(message.channel, discord.DMChannel):
-        response = process.main(message.content);
-
-
-        return_message = response;
-        await message.author.send(return_message);
-
-        # encode result to RSA later:
-        #encodedMessage = encode_text.main(True, response);
-        #filename = "c.txt"
-        #encoded_file = discord.File("./ciphertext/c.txt", filename=filename)
-        #await message.author.send(file=encoded_file);
-    else:
-        await bot.process_commands(message)
 
 
 token_enc = [];
