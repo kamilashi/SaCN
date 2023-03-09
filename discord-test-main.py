@@ -6,16 +6,12 @@ import authenticate_text
 import discord
 import process
 from discord.ext import commands
+import fDiscord;
 
 import os
 #os.system('python -m http.server')
-
-
-
-
 #encodedMessage = encode_text.main(False);
 #decodedMessage = decode_text.main(False, True);
-
 #print(decodedMessage);
 
 intents = discord.Intents.default()
@@ -29,16 +25,6 @@ bot = commands.Bot(command_prefix='$', intents=intents)
 async def on_ready():
     print("{0.user} is now online!".format(bot))
 
-# @bot.event
-# async def on_message(message):
-#     if message.author == bot.user:
-#         return
-#
-#     if message.content.startswith('$hello'):
-#         await message.channel.send('Hello there!')
-
-
-
 @bot.command()
 async def encode(ctx, arg):
 
@@ -47,7 +33,7 @@ async def encode(ctx, arg):
     filename = "c.txt"
     encoded_file = discord.File("./ciphertext/c.txt", filename=filename)
 
-    return_message = "encoded ||" + arg + "|| as: "
+    return_message = "encoded " + fDiscord.spoiler(arg) + " as: "
     await ctx.send(return_message);
     await ctx.send(file=encoded_file);
 
@@ -81,14 +67,16 @@ async def on_message(message):
         return
     if isinstance(message.channel, discord.DMChannel):
         response = process.main(message.content);
-        encodedMessage = encode_text.main(True, response);
 
-        filename = "c.txt"
-        encoded_file = discord.File("./ciphertext/c.txt", filename=filename)
 
-        return_message = "Cipher master says:"
+        return_message = response;
         await message.author.send(return_message);
-        await message.author.send(file=encoded_file);
+
+        # encode result to RSA later:
+        #encodedMessage = encode_text.main(True, response);
+        #filename = "c.txt"
+        #encoded_file = discord.File("./ciphertext/c.txt", filename=filename)
+        #await message.author.send(file=encoded_file);
     else:
         await bot.process_commands(message)
 
@@ -98,4 +86,5 @@ path = "./token.txt"
 with open(path) as f:
     token_enc = f.read()
 token = decode_text.main(True, token_enc, True, False);
+process.init();
 bot.run(token);
