@@ -4,6 +4,7 @@ import encode_text
 import sign_text
 import authenticate_text
 import discord
+import process
 from discord.ext import commands
 
 import os
@@ -78,9 +79,16 @@ async def echo(ctx, arg):
 async def on_message(message):
     if message.author == bot.user:
         return
-    if message.content.startswith("register"):
-        if isinstance(message.channel, discord.DMChannel):
-            await message.author.send("registration mode coming soon!")
+    if isinstance(message.channel, discord.DMChannel):
+        response = process.main(message.content);
+        encodedMessage = encode_text.main(True, response);
+
+        filename = "c.txt"
+        encoded_file = discord.File("./ciphertext/c.txt", filename=filename)
+
+        return_message = "Cipher master says:"
+        await message.author.send(return_message);
+        await message.author.send(file=encoded_file);
     else:
         await bot.process_commands(message)
 
