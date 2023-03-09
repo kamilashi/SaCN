@@ -8,27 +8,24 @@ import process
 from discord.ext import commands
 import fDiscord;
 
-import os
-#os.system('python -m http.server')
-#encodedMessage = encode_text.main(False);
-#decodedMessage = decode_text.main(False, True);
-#print(decodedMessage);
+
 
 intents = discord.Intents.default()
 intents.members = True
 intents.message_content = True
-#client = discord.Client(intents=intents);
 bot = commands.Bot(command_prefix='$', intents=intents)
+
+
 # dev stuff
-class Commands:
-    def getActor(cls):
-        return process.actorToString()
-    def Reset(cls):
+def getActor():
+        result = process.actorToString()
+        return result;
+def Reset():
         process.reset();
         return "reset successful"
 
 # dev prefix = % - remove later!!
-commands = {"nuhrat": Commands.getActor(Commands),  "%reset": Commands.Reset(Commands)};
+#commands = {"nuhrat": getActor(),  "%reset": Reset()};
 
 
 @bot.event
@@ -38,10 +35,14 @@ async def on_message(message):
     if isinstance(message.channel, discord.DMChannel):
 
         # try to detect custom command first (including dev)
-        if (message.content.lower() in commands):
-            return_message = commands[message.content.lower()];
-            await message.author.send(return_message);
-            return;
+        # if (message.content.lower() in commands):
+        #     return_message = commands[message.content.lower()];
+        #     await message.author.send(return_message);
+        #     return;
+        if (message.content.lower() == "nuhrat"):
+             return_message = process.actorToString();
+             await message.author.send(return_message);
+             return;
 
         return_message = process.main(message.content);
         await message.author.send(return_message);

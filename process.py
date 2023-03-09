@@ -93,6 +93,7 @@ def loadActor():
     with open(save_path, 'r') as openfile:
         actor_dict = json.load(openfile);
     actor = Actor(actor_dict['next_stage'], actor_dict['attributes']);
+    openfile.close()
     return actor;
 
 def init():
@@ -105,8 +106,9 @@ def init():
 
 def actorToString():
     actor = loadActor();
-    string = fDiscord.italic("Character: Nuhrat");
+    string = fDiscord.bold("Character: Nuhrat");
     string += "\n" + str(actor.attributes);
+    print (str(actor.attributes));
     return string;
 
 def reset():
