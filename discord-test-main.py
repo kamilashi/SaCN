@@ -17,15 +17,24 @@ bot = commands.Bot(command_prefix='$', intents=intents)
 
 
 # dev stuff
-def getActor():
+class Private:
+    @staticmethod
+    def getActor():
         result = process.actorToString()
         return result;
-def Reset():
+
+    @staticmethod
+    def reset():
         process.reset();
         return "reset successful"
 
+    @staticmethod
+    def init():
+        process.init();
+        return "init successful"
+
 # dev prefix = % - remove later!!
-#commands = {"nuhrat": getActor(),  "%reset": Reset()};
+commands = {"nuhrat": Private.getActor,  "%reset": Private.reset,"%init": Private.init};
 
 
 @bot.event
@@ -34,15 +43,11 @@ async def on_message(message):
         return
     if isinstance(message.channel, discord.DMChannel):
 
-        # try to detect custom command first (including dev)
-        # if (message.content.lower() in commands):
-        #     return_message = commands[message.content.lower()];
-        #     await message.author.send(return_message);
-        #     return;
-        if (message.content.lower() == "nuhrat"):
-             return_message = process.actorToString();
-             await message.author.send(return_message);
-             return;
+        #try to detect custom command first (including dev)
+        if (message.content.lower() in commands):
+            return_message = commands[message.content.lower()]();
+            await message.author.send(return_message);
+            return;
 
         return_message = process.main(message.content);
         await message.author.send(return_message);

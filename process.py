@@ -59,19 +59,20 @@ def main(msg):
     for i in range(0, len(stages)):
         if (msg.lower() == stages[i].entry_password.lower()):
             actor = loadActor();
-            actor.attributes[stages[i].stage_name]+=1;
-            saveActor(actor);
+            if(actor.next_stage==i): # should be the same as stages[i].index
+                actor.attributes[stages[i].stage_name]+=1;
+                actor.next_stage+=1;
+                saveActor(actor);
 
-            response = "\n" + \
-                       fDiscord.bold(stages[i].entry_text) + "\n" + \
-                       stages[i].reward_attribute + " +1 for your character.\n\n" +\
-                       "You get a key piece:" + \
-                       "\n" + enum_key_pieces[i] + "\n" +\
-                       "keep it safe!\n\n" + \
-                       stages[i].reward_riddle;
+                response = "\n" + \
+                           fDiscord.bold(stages[i].entry_text) + "\n" + \
+                           stages[i].reward_attribute + " +1 for your character.\n\n" +\
+                           "You get a key piece:" + \
+                           "\n" + enum_key_pieces[i] + "\n" +\
+                           "keep it safe!\n\n" + \
+                           stages[i].reward_riddle;
 
-            #print(actor.__dict__);
-            return(response);
+                return(response);
 
 
 
@@ -105,11 +106,12 @@ def init():
         return;
 
 def actorToString():
-    actor = loadActor();
-    string = fDiscord.bold("Character: Nuhrat");
-    string += "\n" + str(actor.attributes);
-    print (str(actor.attributes));
-    return string;
+    if (os.path.exists(save_path)):
+        actor = loadActor();
+        string = fDiscord.bold("Character: Nuhrat");
+        string += "\n" + str(actor.attributes);
+        print (str(actor.attributes)); # add only printing of arrtibutes != 0
+        return string;
 
 def reset():
     os.remove(save_path);
