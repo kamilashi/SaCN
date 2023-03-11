@@ -105,6 +105,7 @@ def actorToString():
         string += "\n" + str(actor.attributes);
         #print (str(actor.attributes)); # add only printing of arrtibutes != 0
         return string;
+    return "save not found";
 
 def gameToString():
     string = fDiscord.bold("enum_attributes: ");
@@ -121,9 +122,6 @@ def gameToString():
     string += "\n" + "--" * 30+ "\n" ;
     string += fDiscord.bold("enum_key_pieces: ");
     string += "\n" + str(enum_key_pieces);
-    # string += "\n\n";
-    # string += fDiscord.bold("stages: ");
-    # string += "\n" + str(stages);
 
     return string;
 
@@ -146,12 +144,8 @@ def loadLocale():
 
 # game language switch, default is english
 def set_locale(lang): # to-do: refactor to reload
-    global locale
-    global enum_attributes
-    global enum_passwords
-    global enum_entry_text
-    global enum_riddles
-    global enum_key_pieces
+    global locale, stages
+    global enum_attributes, enum_passwords, enum_entry_text, enum_riddles, enum_key_pieces
     if(lang == "eng"):
         enum_attributes = locales.eng.enum_attributes;
         enum_passwords = locales.eng.enum_passwords;
@@ -164,7 +158,6 @@ def set_locale(lang): # to-do: refactor to reload
         enum_entry_text = locales.ru.enum_entry_text;
         enum_riddles = locales.ru.enum_riddles;
         enum_key_pieces = locales.ru.enum_key_pieces;
-    global stages
     stages = [];  # reset just in case
     for i in range(0, len(enum_attributes)):
         stage = Stage(i);
