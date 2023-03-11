@@ -21,7 +21,7 @@ def reverseBits(number):
     reversedInt = int(string.format(number)[::-1], 2);
     return reversedInt
 
-def main(vectorTest=False, input=0):
+def main(vectorTest=False, input=0, writeToLocalFile=True):
     # Opening JSON file
 
     path = "./keys/public/pub.json"
@@ -57,12 +57,13 @@ def main(vectorTest=False, input=0):
     # write to file:
     print("authenticated: " + str(plaintext));
 
-    path = "./plaintext/m.txt"
-    with open(path, 'w+') as f:
-        f.write(str(plaintext));
+    if(writeToLocalFile):
+        path = "./plaintext/m.txt"
+        with open(path, 'w+') as f:
+            f.write(str(plaintext));
 
     return plaintext;
 
 
 if __name__ == "__main__":
-    main(sys.argv[1], sys.argv[2])
+    main(sys.argv[1], sys.argv[2], sys.argv[3])
