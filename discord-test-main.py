@@ -36,13 +36,13 @@ class Private:
     @staticmethod
     def langEng():
         process.set_locale("eng");
-        process.actor_locale("eng");
+        process.actor_locale("eng"); # change to reload later
         return "language set as " + "eng"
 
     @staticmethod
     def langRu():
         process.set_locale("ru");
-        process.actor_locale("ru");
+        process.actor_locale("ru"); # change to reload later
         return "language set as " + "ru"
 
     @staticmethod
@@ -52,10 +52,11 @@ class Private:
 
 # dev prefix = % - remove later!!
 commands = {"nuhrat": Private.getActor,
+            "нухрат": Private.getActor,
             "%reset": Private.resetActor,
             "%init": Private.initActor,
-            "%eng": Private.langEng,
-            "%ru": Private.langRu,
+            "eng": Private.langEng,
+            "ru": Private.langRu,
             "%print": Private.printGame,
             };
 
