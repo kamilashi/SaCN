@@ -28,23 +28,26 @@ def toRadians(deg):
     return deg * math.pi/ 180;
 
 def drawDot(lat1_deg, long1_deg, savepath):
-    # Create a 1024x1024x3 array of 8 bit unsigned integers
-    data = np.zeros((img_width, img_height, 3), dtype=np.uint8)
+
 
     y = (abs(lat1_deg - bottom_bound) /abs(top_bound - bottom_bound) )*img_height
     x = (abs(long1_deg - left_bound)/ abs(right_bound - left_bound))*img_width
 
     print(" x = " + str(x) + "\n" + " y = " + str(y))
-    data[int(x), int(y)] = [255, 0, 0]  # Makes the middle pixel red
+
 
     try:  # try opening existing file
-        image = open(savepath)
-        image.putdata(Image.fromarray(data));
+        with Image.open(savepath) as img:
+            data = img.load()
+        data[int(x), int(y)] = (255, 0, 0)  # Mark the point
     except Exception:  # create new if not exists
         print("created new image ")
-        image = Image.fromarray(data);
-    image.save(savepath)
-    image.close()
+    # Create a 1024x1024x3 array of 8 bit unsigned integers
+        data = np.zeros((img_width, img_height, 3), dtype=np.uint8)
+        data[int(x), int(y)] = [255, 0, 0]  # Mark the point
+        img = Image.fromarray(data);
+    img.save(savepath)
+    img.close()
 
 def debug(img_path):
     for i in range(0, len(enum_ref_coords)):
