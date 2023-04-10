@@ -5,6 +5,7 @@ import sign_text
 import authenticate_text
 import discord
 import process
+import map
 from discord.ext import commands
 import fDiscord
 
@@ -13,8 +14,8 @@ import fDiscord
 intents = discord.Intents.default()
 intents.members = True
 intents.message_content = True
-bot = commands.Bot(command_prefix='$', intents=intents)
-
+bot = commands.Bot(command_prefix='$', intents=intents);
+mapGameActive = True; #for testing
 
 # dev stuff
 class Private:
@@ -65,14 +66,24 @@ commands = {"nuhrat": Private.getActor,
 async def on_message(message):
     if message.author == bot.user:
         return
+    # if messaged bot's dm
     if isinstance(message.channel, discord.DMChannel):
-
-        #try to detect custom command first (including dev)
-        if (message.content.lower() in commands):
-            return_message = commands[message.content.lower()]();
+        message_args = message.content.split();
+        keyword = message_args[0].lower();
+        # try to detect custom command first (including dev)
+        if (keyword in commands):
+            return_message = commands[keyword]();
             await message.author.send(return_message);
             return;
-
+        # map minigame - processed independently, user is not bound to the map loop
+        if (keyword == "maptest" and mapGameActive):
+            lat_deg = float(message_args[1]);
+            long_deg = float(message_args[2]);
+            radius_cm = float(message_args[3]);
+            return_message = map.main(lat_deg, long_deg, radius_cm);
+            await message.author.send(return_message);
+            return;
+        # otherwise try to process the passwords
         return_message = process.main(message.content);
         await message.author.send(return_message);
 
@@ -82,6 +93,7 @@ async def on_message(message):
         #encoded_file = discord.File("./ciphertext/c.txt", filename=filename)
         #await message.author.send(file=encoded_file);
     else:
+        #if not in the bot's dms operate like a regular en-dec tool
         await bot.process_commands(message)
 
 @bot.event
