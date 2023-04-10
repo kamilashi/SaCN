@@ -1,4 +1,3 @@
-
 import decode_text
 import encode_text
 import sign_text
@@ -16,6 +15,8 @@ intents.members = True
 intents.message_content = True
 bot = commands.Bot(command_prefix='$', intents=intents);
 mapGameActive = True; #for testing
+img_file_name = "image.jpg"
+img_path = "./data/" + img_file_name;
 
 # dev stuff
 class Private:
@@ -80,7 +81,13 @@ async def on_message(message):
             lat_deg = float(message_args[1]);
             long_deg = float(message_args[2]);
             radius_cm = float(message_args[3]);
-            return_message = map.main(lat_deg, long_deg, radius_cm);
+            [return_message, hit] = map.main(lat_deg, long_deg, radius_cm);
+            if hit:
+                return_message+="\nbingo! image here"
+                #map.drawDot(lat_deg, long_deg, img_path);
+                map.debug(img_path)
+                image_file = discord.File(img_path, filename = img_file_name);
+                await message.author.send(file=image_file);
             await message.author.send(return_message);
             return;
         # otherwise try to process the passwords
