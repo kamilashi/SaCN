@@ -1,6 +1,6 @@
 class eng:
     enum_attributes = ['insight', 'knowledge', 'creativity', 'analysis', 'adaptiveness', 'love', 'willpower'];
-    enum_passwords = ['loremaster', 'word', 'kventin', 'coffee', 'grind', 'fate', '?yes'];
+    enum_passwords = ['loremaster', 'word', 'kvint', 'coffee', 'grind', 'fate', '?yes'];
     enum_entry_text   = [
                     "ODESZA - Above The Middle __ hidden in plain sight (or not so much)" ,       #+  "+1 insight",
                     "The Beatles - Across the Universe"  ,            #+  "+1 knowledge",
@@ -22,7 +22,7 @@ class eng:
 
 class ru:
     enum_attributes = ['проницательность', 'знание', 'творчество', 'анализ', 'адаптивность', 'любовь', 'сила воли'];
-    enum_passwords = ['лормастер', 'слово', 'квентин', 'кофе', 'упорство', 'судьба', '?да'];
+    enum_passwords = ['лормастер', 'слово', 'квинт', 'кофе', 'упорство', 'судьба', '?да'];
     enum_entry_text = [
                     "ты нашел секрет!",  # +  "+1 insight",
                     "шпрехен зи инглиш",  # +  "+1 knowledge",
