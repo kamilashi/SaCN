@@ -24,12 +24,30 @@ class ru:
     enum_attributes = ['проницательность', 'знание', 'творчество', 'анализ', 'адаптивность', 'любовь', 'сила воли'];
     enum_passwords = ['лормастер', 'слово', 'квинт', 'кофе', 'упорство', 'судьба', '?да'];
     enum_entry_text = [
-                    "ты нашел секрет!",  # +  "+1 insight",
+                    "Приветствую, путник, я ждал тебя!\n \
+                    Я чувствую страсть к путешествиям в твоих глазах и мужество в твоем сердце, острый ум и смекалку.\n\
+                    Я мастер шифров, добро пожаловать в мою обитель, где я выкраиваю тайны и тку из них истории. \n\
+                    Найдя меня, ты встал на путь полный загадок и приключений, в конце которого тебя ждет награда. \n\
+                    Позволь представить тебе человека, по имени Нухрат - историю о чьих подвигах я приглашаю написать вместе. \n\
+                    Он молод и абмициозен, его остроумие может сравниться только с его решимостью. Он, как\n\
+                    и ты, отважился на испытание чтобы найти свое счастье. Каждое испытание - это загадка, \n\
+                    награда за решение которой поможет продвигаться дальше. Мы создадим историю,ни одна деталь которой не будет утеряна,\n\
+                    она неподвластна времени и всегда будет ждать своего творца чтобы продолжить с последней точки.\n\
+                    Тропа приключений может быть тернистой, но и тут не думай, что я оставляю тебя одного. \n\
+                    Стоит тебе почувствовать себя в тупике, мои почтовые совы всегда донесут твой клич о помощи, \n\
+                    прямо до helploremaster@gmail.com. Начнется же наше приключение! \n\n\
+                    Уровень 1 пройден, Нухрат получает +1 к проницательности. \n",  # +   +1 insight
+
                     "шпрехен зи инглиш",  # +  "+1 knowledge",
+
                     "Адаптируйся, выживай, превозмогай",  # +  "+1 creativity",
+
                     "Хитро!",  # +  "+1 analysis",
+
                     "Терпение и труд!",  # +  "+1 adaptiveness",
+
                     "*( ͡° ͜ʖ ͡°)*",  # +  "+1 love",
+
                     "Он сказал да!",  # +  "+1 willpower"
     ];
     enum_riddles = ["загадка про слово",
@@ -42,12 +60,16 @@ class ru:
                     ];
     enum_key_pieces = ['I', 'a', 'm', 'k', 'e', 'y', '_'];
 
-# class map:
-#     enum_cLocations_coord = [];
-#     enum_cLocations_names = ["EspressoHouse", "BlancoCoffe", "Torrefaktum", "JungeDieBäckerei"];
-#     enum_sbLocations_coord = [];
-#     enum_sbLocations_names = ["Hamburg Central Station", "Jungfernstieg", "Stadthausbrücke", "Landungsbrücken", "Altona"];
-#     #5 decimal places precision required
+class songs:
+    songs = [
+        "ODESZA - Above The Middle __ hidden in plain sight (or not so much)",  # +  "+1 insight",
+        "The Beatles - Across the Universe",  # +  "+1 knowledge",
+        "Stromae - ave cesaria",  # +  "+1 creativity",
+        "Kygo - Raging ft. Kodaline",  # +  "+1 analysis",
+        "Labrinth - The Producer",  # +  "+1 adaptiveness",
+        "SAINT MOTEL - My Type",  # +  "+1 love",
+        "The Waterboys - The Whole of the Moon",  # +  "+1 willpower"
+    ];
 
 
 
