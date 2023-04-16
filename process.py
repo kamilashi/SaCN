@@ -52,12 +52,12 @@ def main(msg):
                 saveActor(actor);
 
                 response = "\n" + \
-                           fDiscord.bold(stages[i].entry_text) + "\n" + \
-                           stages[i].reward_attribute + " +1 for your character.\n\n" +\
-                           "You get a key piece:" + \
-                           "\n" + stages[i].reward_key_piece + "\n" +\
-                           "keep it safe!\n\n" + \
-                           stages[i].reward_riddle;
+                    stages[i].entry_text + "\n" + \
+                    stages[i].reward_attribute + " +1.\n\n" +\
+                    "-----" + \
+                    "\n" +  fDiscord.bold(stages[i].reward_key_piece) + "\n" +\
+                    "-----\n\n" + \
+                    stages[i].reward_riddle;
 
                 return(response);
 
