@@ -10,7 +10,15 @@ class eng:
                     "SAINT MOTEL - My Type"   ,            #+  "+1 love",
                     "The Waterboys - The Whole of the Moon"   ,            #+  "+1 willpower"
                     ];
-    enum_riddles = ["just a riddle about word? => get next password",
+    enum_riddles = ["You can give it to me, but it's not a gift\n\
+                    You have a way with it, I must admit\n\
+                    It can be easy, it can be hard\n\
+                    I'll cherish it, with all my heart\n\
+                    It's like a spell, powerful sound\n\
+                    When snowy mountains are around\n\
+                    For some it's blue, for some it's red\n\
+                    What is this thing, that you once said?",
+
                     "go to minecraft server  => get next password",
                     "solve a map  => get next password",
                     "book code most likely  => get next password",
@@ -50,7 +58,15 @@ class ru:
 
     "Он сказал да!",  # +  "+1 willpower"
     ];
-    enum_riddles = ["загадка про слово",
+    enum_riddles = ["You can give it to me, but it's not a gift\n\
+                    You have a way with it, I must admit\n\
+                    It can be easy, it can be hard\n\
+                    I'll cherish it, with all my heart\n\
+                    It's like a spell, powerful sound\n\
+                    When snowy mountains are around\n\
+                    For some it's blue, for some it's red\n\
+                    What is this thing, that you once said?",
+
                     "иди на сервер в майнкрафте",
                     "Реши карту, вложенную в скетчбук",
                     "Что-то на английском",
@@ -62,7 +78,7 @@ class ru:
 
 class songs:
     songs = [
-        "ODESZA - Above The Middle __ hidden in plain sight (or not so much)",  # +  "+1 insight",
+        "ODESZA - Above The Middle",  # +  "+1 insight",
         "The Beatles - Across the Universe",  # +  "+1 knowledge",
         "Stromae - ave cesaria",  # +  "+1 creativity",
         "Kygo - Raging ft. Kodaline",  # +  "+1 analysis",
