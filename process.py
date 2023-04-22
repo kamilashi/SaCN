@@ -51,14 +51,13 @@ def main(msg):
                 actor.next_stage+=1;
                 saveActor(actor);
 
+                # stages[i].reward_attribute + " +1.\n\n" +\ # after entry text
                 response = "\n" + \
-                    stages[i].entry_text + "\n" + \
-                    stages[i].reward_attribute + " +1.\n\n" +\
-                    "-----" + \
-                    "\n" +  fDiscord.bold(stages[i].reward_key_piece) + "\n" +\
-                    "-----\n\n" + \
-                    stages[i].reward_riddle;
-
+                           "-----" + \
+                           "\n" + fDiscord.spoiler(stages[i].reward_key_piece) + "\n" + \
+                           "-----\n\n" + \
+                           stages[i].entry_text + "\n" + \
+                           fDiscord.italic(stages[i].reward_riddle);
                 return(response);
 
 
