@@ -42,7 +42,7 @@ def init():
     actor_locale(locale) #add check!
 
 def main(msg):
-    print("debug info here\n");
+    print("Processing password attempt\n");
     for i in range(0, len(stages)):
         if (msg.lower() == stages[i].entry_password.lower()):
             actor = loadActor();
@@ -50,20 +50,15 @@ def main(msg):
                 actor.attributes[stages[i].stage_name]+=1;
                 actor.next_stage+=1;
                 saveActor(actor);
-
                 # stages[i].reward_attribute + " +1.\n\n" +\ # after entry text
+                # "-----" + \
+                # "\n" + fDiscord.spoiler(stages[i].reward_key_piece) + "\n" + \
+                # "-----\n\n" + \
                 response = "\n" + \
-                           "-----" + \
-                           "\n" + fDiscord.spoiler(stages[i].reward_key_piece) + "\n" + \
-                           "-----\n\n" + \
                            stages[i].entry_text + "\n" + \
-                           fDiscord.italic(stages[i].reward_riddle);
-                return(response);
-
-
-
-
-    return "..."; #implement pick random idle line
+                           fDiscord.italic(stages[i].reward_riddle) + "\n";
+                return(response, stages[i].reward_key_piece);
+    return ("...", None); #implement pick random idle line
 
 
 if __name__ == "__main__":
@@ -100,8 +95,24 @@ def initActor():    #only dev function, use carefully
 def actorToString():
     if (os.path.exists(save_path)):
         actor = loadActor();
+        string = fDiscord.bold("Персонаж: Нухрат");
+        string += "\n" + fDiscord.italic("Уровень: " + str(actor.next_stage)) + "\n";
+
+        #string += "\n" + str(actor.attributes);
+        for i in range(0, len(actor.attributes)):
+            if(actor.attributes[stages[i].stage_name] > 0):
+                string += "\n" + stages[i].stage_name + ": " + str(actor.attributes[stages[i].stage_name]);
+
+        #print (str(actor.attributes)); # add only printing of arrtibutes != 0
+        return string;
+    return "Save not found";
+
+def actorToStringDebug():
+    if (os.path.exists(save_path)):
+        actor = loadActor();
         string = fDiscord.bold("Character: Nuhrat");
         string += "\n" + str(actor.attributes);
+        string += "\n\nNext stage: " + str(actor.next_stage);
         #print (str(actor.attributes)); # add only printing of arrtibutes != 0
         return string;
     return "save not found";

@@ -3,17 +3,28 @@ import math
 
 import numpy as np
 from PIL import Image
-
 import data.locales as locales
 import fDiscord
 
-enum_ref_coords = [{"lat": 53.55278, "long": 10.00639}, # Hbh
-                   {"lat": 53.552729, "long": 9.99339},  # Jung
-                   {"lat": 53.55194, "long": 9.93500},  # Altona
-                   {"lat": 53.5496, "long": 9.9845}   # Stadthausbrücke
+enum_locations = [{"lat": 53.552778, "long": 10.006389, "riddlePiece": "Сквозь время, через километры"}, # Hbh
+                   {"lat": 53.553611, "long": 9.9925, "riddlePiece": "В тяжелый день на пять минут"},  # Jungfernstieg
+                    {"lat": 53.549167, "long": 9.986389, "riddlePiece": "Поймаешь и пробросишь бегло"},  # Stadthausbrücke
+                    {"lat": 53.546111, "long": 9.966667, "riddlePiece": "Как хочешь время повернуть"},  # Landungsbrücken
+                    {"lat": 53.549444, "long": 9.955833, "riddlePiece": "Вперед, где больше ждать не надо"},  # Reeperbahn
+                    {"lat": 53.548333, "long": 9.945556, "riddlePiece": "Где все еще минут на пять"},  # Königstraße
+                    {"lat": 53.551944, "long": 9.935, "riddlePiece": "Поймав его, мы будем рады\nО наших буднях рассказать."},  # Altona
                    ];
 
-ratio = 1/0.220; #220 meters in 1 on map
+enum_riddle_pieces = ["Сквозь время, через километры",
+                     "В тяжелый день на пять минут",
+                     "Поймаешь и пробросишь бегло",
+                     "Как хочешь время повернуть",
+                     "Вперед, где больше ждать не надо",
+                     "Где все еще минут на пять",
+                     "Поймав его, мы будем рады ",
+                     "О наших буднях рассказать."];
+
+ratio = 1/0.220; #220 meters in 1 cm on map
 R_EARTH = 6371.000
 img_width = 1024;
 img_height = 1024;
@@ -22,6 +33,8 @@ top_bound = 53.75; #
 bottom_bound = 53.36666; #
 right_bound = 10.35
 left_bound = 9.7;
+
+allowableError = 0.5;
 
 
 def toRadians(deg):
@@ -39,20 +52,20 @@ def drawDot(lat1_deg, long1_deg, savepath):
     try:  # try opening existing file
         with Image.open(savepath) as img:
             data = img.load()
-        data[int(x), int(y)] = (255, 0, 0)  # Mark the point
+        data[int(x), int(y)] = (255, 255, 255)  # Mark the point
     except Exception:  # create new if not exists
         print("created new image ")
     # Create a 1024x1024x3 array of 8 bit unsigned integers
         data = np.zeros((img_width, img_height, 3), dtype=np.uint8)
-        data[int(x), int(y)] = [255, 0, 0]  # Mark the point
+        data[int(x), int(y)] = [255, 255, 255]  # Mark the point
         img = Image.fromarray(data);
     img.save(savepath)
     img.close()
 
-def debug(img_path):
-    for i in range(0, len(enum_ref_coords)):
-        lat_deg = enum_ref_coords[i]["lat"];
-        long_deg = enum_ref_coords[i]["long"];
+def drawAllPoints(img_path):
+    for i in range(0, len(enum_locations)):
+        lat_deg = enum_locations[i]["lat"];
+        long_deg = enum_locations[i]["long"];
         drawDot(lat_deg,long_deg, img_path)
 
 def getDistance(lat1_deg, long1_deg,lat2_deg ,long2_deg):
@@ -70,15 +83,23 @@ def getDistance(lat1_deg, long1_deg,lat2_deg ,long2_deg):
 def main(lat1_deg, long1_deg, radius_cm):
     count = 0; # number of locations close to input coordinates within the given radius
     hit = False;
-    for i in range(0, len(enum_ref_coords)):
-        lat2_deg = enum_ref_coords[i]["lat"];
-        long2_deg = enum_ref_coords[i]["long"];
+    return_message = "";
+    riddle_piece = "";
+
+    for i in range(0, len(enum_locations)):
+        lat2_deg = enum_locations[i]["lat"];
+        long2_deg = enum_locations[i]["long"];
         distance_cm = getDistance(lat1_deg, long1_deg, lat2_deg, long2_deg) * ratio;
-        if(distance_cm <= 0.5): #if the spot was quessed
+        if(distance_cm <= allowableError): #if the spot was quessed
             hit = True;
+            riddle_piece +=  fDiscord.italic(enum_locations[i]["riddlePiece"]);
+            return_message += "[1], ";
+            count -= 1;
         if(distance_cm <= radius_cm):
             count+=1;
-    return_message = "count = " + str(count);
+    return_message += str(count); # number of points within the tested radius, excluding the found one if such exists
+    return_message += "\n\n" + riddle_piece;
+
     print(return_message);
     return [return_message, hit];
 

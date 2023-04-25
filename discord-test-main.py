@@ -1,3 +1,5 @@
+import os
+
 import decode_text
 import encode_text
 import sign_text
@@ -17,6 +19,8 @@ bot = commands.Bot(command_prefix='$', intents=intents);
 mapGameActive = True; #for testing
 img_file_name = "image.jpg"
 img_path = "./data/" + img_file_name;
+
+targetUser = 0; #dummy global target user
 
 # dev stuff
 class Private:
@@ -52,53 +56,78 @@ class Private:
         result = process.gameToString();
         return result
 
+    @staticmethod
+    def printActorDebug():
+        result = process.actorToStringDebug();
+        return result
+
+    @staticmethod
+    def deleteImage():
+        os.remove(img_path);
+        return "image deleted"
+
+    @staticmethod
+    async def drawAllPoints():
+        map.drawAllPoints(img_path);
+        image_file = discord.File(img_path, filename=img_file_name);
+        result = "debug full map";
+        await targetUser.send(file=image_file);
+        return result
+
 # dev prefix = % - remove later!!
 commands = {"nuhrat": Private.getActor,
             "нухрат": Private.getActor,
             "%reset": Private.resetActor,
             "%init": Private.initActor,
-            "eng": Private.langEng,
-            "ru": Private.langRu,
-            "%print": Private.printGame,
+            "%eng": Private.langEng,
+            "%ru": Private.langRu,
+            #"%printgame": Private.printGame,
+            "%printactordebug": Private.printActorDebug,
+            "%drawallpoints": Private.drawAllPoints,  #DO NOT USE! REWRITES THE SAVED IMAGE
+            "%resetimage": Private.deleteImage
             };
 
 
 @bot.event
 async def on_message(message):
+    global targetUser;
     if message.author == bot.user:
         return
     # if messaged bot's dm
     if isinstance(message.channel, discord.DMChannel):
         message_args = message.content.split();
         keyword = message_args[0].lower();
+        targetUser = message.author;
         # try to detect custom command first (including dev)
         if (keyword in commands):
             return_message = commands[keyword]();
             await message.author.send(return_message);
             return;
         # map minigame - processed independently, user is not bound to the map loop
-        if (keyword == "maptest" and mapGameActive):
+        if (keyword == "magicmap" and mapGameActive):
             lat_deg = float(message_args[1]);
             long_deg = float(message_args[2]);
             radius_cm = float(message_args[3]);
             [return_message, hit] = map.main(lat_deg, long_deg, radius_cm);
-            if hit:
-                return_message+="\nbingo! image here"
-                #map.drawDot(lat_deg, long_deg, img_path);
-                map.debug(img_path)
+            if hit: #To-Do: add check for already located points
+                await message.author.send("В небе зажглась звезда!");
+                map.drawDot(lat_deg, long_deg, img_path);
+                #map.drawAllPoints(img_path)
                 image_file = discord.File(img_path, filename = img_file_name);
                 await message.author.send(file=image_file);
             await message.author.send(return_message);
             return;
         # otherwise try to process the passwords
-        return_message = process.main(message.content);
+        [return_message, final_key_piece] = process.main(message.content);
         await message.author.send(return_message);
 
         # encode result to RSA later:
-        #encodedMessage = encode_text.main(True, response);
-        #filename = "c.txt"
-        #encoded_file = discord.File("./ciphertext/c.txt", filename=filename)
-        #await message.author.send(file=encoded_file);
+        if(final_key_piece != None):
+            encode_text.main(True, final_key_piece);
+            filename = "c.txt"
+            encoded_file = discord.File("./ciphertext/" + filename, filename=filename)
+            await message.author.send(file=encoded_file);
+            os.remove("./ciphertext/" + filename);
     else:
         #if not in the bot's dms operate like a regular en-dec tool
         await bot.process_commands(message)
