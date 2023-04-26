@@ -26,11 +26,12 @@ class eng:
                     "link to a google doc  => get next password",
                     "you got a vigenere key! now wait for what it unlocks"
                     ];
-    enum_key_pieces = ['c', 'a', 'r', 'p', 'a', 'di', 'em'];
+    enum_key_pieces = ['wh', 'ol', 'eo', 'ft', 'he', 'mo', 'on'];
 
 class ru:
     enum_attributes = ['проницательность', 'опыт', 'адаптивность', 'анализ', 'упорство', 'любовь', 'сила воли'];
-    enum_passwords = ['лормастер', 'слово', 'квинт', 'момент', 'кофе', 'судьба', 'да'];
+    #enum_passwords = ['лормастер', 'слово', 'квинт', 'момент', 'кофе', 'судьба', 'да'];
+    enum_passwords = [['лормастер','loremaster'], ['слово','word'], ['квинт','kvint'], ['момент','moment'], ['кофе','coffee'], ['судьба','судьбу'], ['да','yes']];
     enum_entry_text = [
     "Приветствую, Путник, я ждал тебя!\n\
 Я чувствую страсть к путешествиям в твоих глазах и мужество в твоем сердце. Я Мастер Щифров,\n\
@@ -123,7 +124,7 @@ Enjoy my taste and pleasant smell\"",
                     "Твоя награда ждет тебя!\n\
 https://accounts.google.com/v3/signin/challenge/pwd?TL=AG7eRGAXyA_HWBaEgoQckjJU-ewYcwFLUW-cQAVZgDwUmStq7C3nP-mkDrXdG0m-&checkConnection=youtube%3A110%3A0&checkedDomains=youtube&cid=1&continue=https%3A%2F%2Fmail.google.com&dsh=S-1124009534%3A1682443995667237&flowEntry=AddSession&flowName=GlifWebSignIn&hl=en&pstMsg=1&service=mail&authuser=4" # vigenere hint?
                     ];
-    enum_key_pieces = ['c', 'a', 'r', 'p', 'a', 'di', 'em'];
+    enum_key_pieces = ['wh', 'ol', 'eo', 'ft', 'he', 'mo', 'on'];
 
 
 # Notes in the sketchbook:
@@ -131,7 +132,7 @@ https://accounts.google.com/v3/signin/challenge/pwd?TL=AG7eRGAXyA_HWBaEgoQckjJU-
 # Momento di restaurant in Hamburg hint in sketchbook
 # MOMENTUM Deichstraße 41, 20459 Hamburg
 # command for the song check-in
-#
+# password protected folder
 
 # amor fati - love of fate ***
 # ars celare artem - art [is] to conceal art
@@ -143,9 +144,11 @@ https://accounts.google.com/v3/signin/challenge/pwd?TL=AG7eRGAXyA_HWBaEgoQckjJU-
 # tempus fugit	Time flees.
 # tempus rerum imperator	time, commander of all things
 # clavis aurea	golden key
-# tendit in ardua virtus	virtue strives for what is difficult ***
-# vero possumus	yes, we can ***
-#
-
+# tendit in ardua virtus	- virtue strives for what is difficult ***
+# vero possumus	- yes, we can ***
+# in verbo tuo	at your word ***
+# facta, non verba	- deeds, not words
+# finis coronat opus -	the end crowns the work
+# gratia et scientia -	grace and learning
 
 # TO-DO:

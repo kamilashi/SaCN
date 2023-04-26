@@ -44,20 +44,21 @@ def init():
 def main(msg):
     print("Processing password attempt\n");
     for i in range(0, len(stages)):
-        if (msg.lower() == stages[i].entry_password.lower()):
-            actor = loadActor();
-            if(actor.next_stage==i): # should be the same as stages[i].index
-                actor.attributes[stages[i].stage_name]+=1;
-                actor.next_stage+=1;
-                saveActor(actor);
-                # stages[i].reward_attribute + " +1.\n\n" +\ # after entry text
-                # "-----" + \
-                # "\n" + fDiscord.spoiler(stages[i].reward_key_piece) + "\n" + \
-                # "-----\n\n" + \
-                response = "\n" + \
-                           stages[i].entry_text + "\n" + \
-                           fDiscord.italic(stages[i].reward_riddle) + "\n";
-                return(response, stages[i].reward_key_piece);
+        for j in range (0, len(stages[i].entry_password)):
+            if (msg.lower() == stages[i].entry_password[j].lower()):
+                actor = loadActor();
+                if(actor.next_stage==i): # should be the same as stages[i].index
+                    actor.attributes[stages[i].stage_name]+=1;
+                    actor.next_stage+=1;
+                    saveActor(actor);
+                    # stages[i].reward_attribute + " +1.\n\n" +\ # after entry text
+                    # "-----" + \
+                    # "\n" + fDiscord.spoiler(stages[i].reward_key_piece) + "\n" + \
+                    # "-----\n\n" + \
+                    response = "\n" + \
+                               stages[i].entry_text + "\n" + \
+                               fDiscord.italic(stages[i].reward_riddle) + "\n";
+                    return(response, stages[i].reward_key_piece);
     return ("...", None); #implement pick random idle line
 
 

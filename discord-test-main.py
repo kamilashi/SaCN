@@ -20,7 +20,7 @@ mapGameActive = True; #for testing
 img_file_name = "image.jpg"
 img_path = "./data/" + img_file_name;
 
-targetUser = 0; #dummy global target user
+adminId = "349070619566014464";
 
 # dev stuff
 class Private:
@@ -67,11 +67,33 @@ class Private:
         return "image deleted"
 
     @staticmethod
-    async def drawAllPoints():
+    async def drawAllPoints(args, sender):
+        global targetUser;
+
         map.drawAllPoints(img_path);
         image_file = discord.File(img_path, filename=img_file_name);
         result = "debug full map";
         await targetUser.send(file=image_file);
+        return result
+
+    @staticmethod
+    async def sendToAdmin(args, sender):
+        global targetUser;
+        global admin;
+
+        targetUser = sender;
+        admin = await bot.fetch_user(adminId);
+        await admin.send(args);
+        result = "message relayed successfully!";
+        return result
+
+    @staticmethod
+    async def sendToTargetUser(args, sender):
+        global targetUser;
+        global admin;
+
+        await targetUser.send(args);
+        result = "reply sent successfully!";
         return result
 
 # dev prefix = % - remove later!!
@@ -83,24 +105,33 @@ commands = {"nuhrat": Private.getActor,
             "%ru": Private.langRu,
             #"%printgame": Private.printGame,
             "%printactordebug": Private.printActorDebug,
-            "%drawallpoints": Private.drawAllPoints,  #DO NOT USE! REWRITES THE SAVED IMAGE
             "%resetimage": Private.deleteImage
             };
-
+commandsWithArgs = {
+            #"%drawallpoints": Private.drawAllPoints,  #DO NOT USE! REWRITES THE SAVED IMAGE
+            "relay":Private.sendToAdmin,
+            "%reply":Private.sendToTargetUser
+            };
 
 @bot.event
 async def on_message(message):
-    global targetUser;
+
     if message.author == bot.user:
         return
     # if messaged bot's dm
     if isinstance(message.channel, discord.DMChannel):
         message_args = message.content.split();
         keyword = message_args[0].lower();
-        targetUser = message.author;
+        #admin = await bot.get_user_info(user_id="Kamila#8332");
         # try to detect custom command first (including dev)
         if (keyword in commands):
             return_message = commands[keyword]();
+            await message.author.send(return_message);
+            return;
+        # then check all commands that require special arguments
+        if (keyword in commandsWithArgs):
+            args = ' '.join(message_args[1:]); # join all arguments except for the first keyword
+            return_message = await commandsWithArgs[keyword](args, message.author);
             await message.author.send(return_message);
             return;
         # map minigame - processed independently, user is not bound to the map loop
