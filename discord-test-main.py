@@ -84,7 +84,7 @@ class Private:
         targetUser = sender;
         admin = await bot.fetch_user(adminId);
         await admin.send(args);
-        result = "message relayed successfully!";
+        result = "Хорошо, мне надо это обдумать...";
         return result
 
     @staticmethod
