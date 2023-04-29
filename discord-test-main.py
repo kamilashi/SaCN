@@ -96,6 +96,17 @@ class Private:
         result = "reply sent successfully!";
         return result
 
+    @staticmethod
+    async def logReport(sent_message, return_message, sender):
+        global admin;
+        # if the sender user wasn't admin, relay log message to admin:
+        admin = await bot.fetch_user(adminId);
+        if (sender != admin):
+            log_report_message = fDiscord.bold("Log from " + str(sender)) + ":\n" + sent_message;
+            log_report_message += fDiscord.bold("\nResponce ") + ":\n" + return_message;
+            await admin.send(log_report_message);
+
+
 # dev prefix = % - remove later!!
 commands = {"nuhrat": Private.getActor,
             "нухрат": Private.getActor,
@@ -115,6 +126,7 @@ commandsWithArgs = {
 
 @bot.event
 async def on_message(message):
+    global admin;
 
     if message.author == bot.user:
         return
@@ -127,6 +139,7 @@ async def on_message(message):
         if (keyword in commands):
             return_message = commands[keyword]();
             await message.author.send(return_message);
+            await Private.logReport(message.content, return_message, message.author);
             return;
         # then check all commands that require special arguments
         if (keyword in commandsWithArgs):
@@ -149,16 +162,19 @@ async def on_message(message):
             await message.author.send(return_message);
             return;
         # otherwise try to process the passwords
-        [return_message, final_key_piece] = process.main(message.content);
+        [return_message, key_piece] = process.main(message.content);
         await message.author.send(return_message);
 
         # encode result to RSA later:
-        if(final_key_piece != None):
-            encode_text.main(True, final_key_piece);
+        if(key_piece != None):
+            encode_text.main(True, key_piece);
             filename = "c.txt"
             encoded_file = discord.File("./ciphertext/" + filename, filename=filename)
             await message.author.send(file=encoded_file);
             os.remove("./ciphertext/" + filename);
+
+        await Private.logReport(message.content, return_message, message.author);
+
     else:
         #if not in the bot's dms operate like a regular en-dec tool
         await bot.process_commands(message)

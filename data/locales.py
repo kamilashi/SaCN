@@ -134,21 +134,41 @@ https://accounts.google.com/v3/signin/challenge/pwd?TL=AG7eRGAXyA_HWBaEgoQckjJU-
 # command for the song check-in
 # password protected folder
 
-# amor fati - love of fate ***
+# Chapter names:
+# audeamus - let us dare
+# in verbo tuo	- at your word
+# calamus gladio fortior	- The pen is mightier than the sword
+# carpe diem - seize the day
+# ?? per aspera ad astra - through hardships to the stars
+# amor fati - love of fate
+# cras es noster	- Tomorrow, be ours
+
+# per angusta ad augusta	- through difficulties to greatness
+# per aspera ad astra	through hardships to the stars
 # ars celare artem - art [is] to conceal art
 # ars longa, vita brevis	- art is long, life is short ***
-# audeamus - let us dare ***
-# carpe diem ***
-# cras es noster	Tomorrow, be ours
-# dulce et utile	a sweet and useful thing / pleasant and profitable	Horace, Ars Poetica: poetry must be dulce et utile, i.e., both enjoyable and instructive.
-# tempus fugit	Time flees.
-# tempus rerum imperator	time, commander of all things
+# emeritus	veteran
+# ex silentio - from knowledge
+
+
+# dulce et utile	- a sweet and useful thing / pleasant and profitable	Horace, Ars Poetica: poetry must be dulce et utile, i.e., both enjoyable and instructive.
+# tempus fugit -	Time flees.
+# tempus rerum imperator	- time, commander of all things
 # clavis aurea	golden key
-# tendit in ardua virtus	- virtue strives for what is difficult ***
+
 # vero possumus	- yes, we can ***
-# in verbo tuo	at your word ***
+
 # facta, non verba	- deeds, not words
 # finis coronat opus -	the end crowns the work
 # gratia et scientia -	grace and learning
+# fortes fortuna adiuvat -	Fortune favors the brave or Fortune favors the strong
+# fortes fortuna iuvat	Fortune favors the brave
+# grandescunt aucta labore	- By hard work, all things increase and grow
+# haec olim meminisse iuvabit	- one day, this will be pleasing to remember
+# hic sunt dracones	- here there are dragons
+# palma non sine pulvere	no reward without effort
+# paulatim sed firmiter	slowly but surely
+# tendit in ardua virtus	- virtue strives for what is difficult ***
+#
 
 # TO-DO:
