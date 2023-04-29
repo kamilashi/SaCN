@@ -21,6 +21,9 @@ img_file_name = "image.jpg"
 img_path = "./data/" + img_file_name;
 
 adminId = "349070619566014464";
+#targetUserFallbackID = None;#"895246650187087924";
+targetUserSaveFileName = "targetSnowflakeID.txt";
+targetUserSavePath = "./data/" + targetUserSaveFileName;
 
 # dev stuff
 class Private:
@@ -68,37 +71,42 @@ class Private:
 
     @staticmethod
     async def drawAllPoints(args, sender):
-        global targetUser;
-
         map.drawAllPoints(img_path);
         image_file = discord.File(img_path, filename=img_file_name);
         result = "debug full map";
+        #if(targetUser == None):
+        with open(targetUserSavePath) as f:
+            targetUserFallbackID = f.read();
+            targetUser = await bot.fetch_user(str(targetUserFallbackID));
         await targetUser.send(file=image_file);
         return result
 
     @staticmethod
     async def sendToAdmin(args, sender):
-        global targetUser;
-        global admin;
-
         targetUser = sender;
-        admin = await bot.fetch_user(adminId);
+        targetUserFallbackID = targetUser.id;
+        with open(targetUserSavePath, 'w+') as f:
+            print("registered new target user: " + str(targetUserFallbackID));
+            f.write(str(targetUserFallbackID));
+        f.close();
+
+        admin = await bot.fetch_user(str(adminId));
         await admin.send(args);
         result = "Я получил твое послание, мне надо его обдумать... :thinking:";
         return result
 
     @staticmethod
     async def sendToTargetUser(args, sender):
-        global targetUser;
-        global admin;
-
+        with open(targetUserSavePath) as f:
+            targetUserFallbackID = f.read();
+            targetUser = await bot.fetch_user(str(targetUserFallbackID));
+        f.close();
         await targetUser.send(args);
         result = "reply sent successfully!";
         return result
 
     @staticmethod
     async def logReport(sent_message, return_message, sender):
-        global admin;
         # if the sender user wasn't admin, relay log message to admin:
         admin = await bot.fetch_user(adminId);
         if (sender != admin):
@@ -126,7 +134,7 @@ commandsWithArgs = {
 
 @bot.event
 async def on_message(message):
-    global admin;
+    #global admin;
 
     if message.author == bot.user:
         return
@@ -248,6 +256,7 @@ token_enc = [];
 path = "./token.txt"
 with open(path) as f:
     token_enc = f.read()
+f.close();
 token = decode_text.main(True, token_enc, True, False);
 process.init();
 bot.run(token);
