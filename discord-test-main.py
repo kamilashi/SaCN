@@ -84,7 +84,7 @@ class Private:
         targetUser = sender;
         admin = await bot.fetch_user(adminId);
         await admin.send(args);
-        result = "Хорошо, мне надо это обдумать...";
+        result = "Я получил твое послание, мне надо его обдумать... :thinking:";
         return result
 
     @staticmethod
@@ -134,7 +134,7 @@ async def on_message(message):
     if isinstance(message.channel, discord.DMChannel):
         message_args = message.content.split();
         keyword = message_args[0].lower();
-        #admin = await bot.get_user_info(user_id="Kamila#8332");
+
         # try to detect custom command first (including dev)
         if (keyword in commands):
             return_message = commands[keyword]();
