@@ -110,7 +110,7 @@ class Private:
         # if the sender user wasn't admin, relay log message to admin:
         admin = await bot.fetch_user(adminId);
         if (sender != admin):
-            log_report_message = fDiscord.bold("Log from " + str(sender)) + ":\n" + sent_message;
+            log_report_message = fDiscord.bold("Log from " + str(sender) + ", id: "+ str(sender.id)) + ":\n" + sent_message;
             log_report_message += fDiscord.bold("\nResponce ") + ":\n" + return_message;
             await admin.send(log_report_message);
 
