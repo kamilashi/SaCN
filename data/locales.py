@@ -98,9 +98,9 @@ class ru:
                     
                     "Для этого, тебе понадобится заклинание \"magicmap\" и циркуль :wink:",
 
-                    "It knows when you stay up all night, \n\
-Time pressured while the stakes are high \n\
-The countless times it's seen you tired\n\
+                    "19:382 35:409 36:250 6:138 35:54 37:30 39:263 42:212, \n\
+40:362 61:115 61:169 61:170 67:11 79:413 \n\
+81:79 countless 9:182 it's seen you tired\n\
 Eyes half-asleep, your drive expired \n\
 If it could talk, it'd likely say\n\
 \"Hey friend, I'm with you, all the way\n\
@@ -120,7 +120,7 @@ Enjoy my taste and pleasant smell\"",
 Как бы сильно ни пытался, \n\
 Изменить свою ...",
 
-                    "https://docs.google.com/presentation/d/11T3BM4vjDc104epOwh_JXwTCBAACQbF-sMmpuco5dyE/edit?usp=sharing",
+                    "https://drive.google.com/file/d/1CyUSBpO0okbYH5F8eGzKNhaHDCdxCLdI/view?usp=share_link",
 
                     "Твоя награда ждет тебя @helploremaster@gmail.com!\n\
 https://accounts.google.com/v3/signin/challenge/pwd?TL=AG7eRGAXyA_HWBaEgoQckjJU-ewYcwFLUW-cQAVZgDwUmStq7C3nP-mkDrXdG0m-&checkConnection=youtube%3A110%3A0&checkedDomains=youtube&cid=1&continue=https%3A%2F%2Fmail.google.com&dsh=S-1124009534%3A1682443995667237&flowEntry=AddSession&flowName=GlifWebSignIn&hl=en&pstMsg=1&service=mail&authuser=4" # vigenere hint?

@@ -15,14 +15,14 @@ enum_locations = [{"lat": 53.552778, "long": 10.006389, "riddlePiece": "Скво
                     {"lat": 53.551944, "long": 9.935, "riddlePiece": "Поймав его, мы будем рады\nО наших буднях рассказать."},  # Altona
                    ];
 
-enum_riddle_pieces = ["Сквозь время, через километры",
-                     "В тяжелый день на пять минут",
-                     "Поймаешь и пробросишь бегло",
-                     "Как хочешь время повернуть",
-                     "Вперед, где больше ждать не надо",
-                     "Где все еще минут на пять",
-                     "Поймав его, мы будем рады ",
-                     "О наших буднях рассказать."];
+# enum_riddle_pieces = ["Сквозь время, через километры",
+#                      "В тяжелый день на пять минут",
+#                      "Поймаешь и пробросишь бегло",
+#                     "Как хочешь время повернуть",
+#                      "Вперед, где больше ждать не надо",
+#                     "Где все еще минут на пять",
+#                     "Поймав его, мы будем рады ",
+#                     "О наших буднях рассказать."];
 
 ratio = 1/0.220; #220 meters in 1 cm on map
 R_EARTH = 6371.000
@@ -79,7 +79,6 @@ def getDistance(lat1_deg, long1_deg,lat2_deg ,long2_deg):
     return dist_m;
 
 # input given in following order: lat long radius in cm
-#
 def main(lat1_deg, long1_deg, radius_cm):
     count = 0; # number of locations close to input coordinates within the given radius
     hit = False;
