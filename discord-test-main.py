@@ -73,12 +73,47 @@ class Private:
     async def drawAllPoints(args, sender):
         map.drawAllPoints(img_path);
         image_file = discord.File(img_path, filename=img_file_name);
-        result = "debug full map";
+        result = "debug full map image";
         #if(targetUser == None):
         with open(targetUserSavePath) as f:
             targetUserFallbackID = f.read();
             targetUser = await bot.fetch_user(str(targetUserFallbackID));
         await targetUser.send(file=image_file);
+        return result
+
+    @staticmethod
+    async def plotPointDebug(args, sender):
+        argsArray = args.split(" ");
+        lat_deg = float(argsArray[0]);
+        long_deg = float(argsArray[1]);
+        radius_cm = float(argsArray[2]);
+        map.plotPointDebug(lat_deg, long_deg, radius_cm);
+        [return_message, hit] = map.main(lat_deg, long_deg, radius_cm);
+        result = "Debug full map\n\n";
+        result += fDiscord.bold("Return Message:") + "\n" + str(return_message) + "\n";
+        result += fDiscord.bold("Hit:") + "\n" + str(hit);
+        return result
+
+    @staticmethod
+    async def mapMiniGame(args, sender):
+        if mapGameActive:
+            argsArray = args.split(" ");
+            lat_deg = float(argsArray[0]);
+            long_deg = float(argsArray[1]);
+            radius_cm = float(argsArray[2]);
+            map.plotPoint(lat_deg, long_deg, radius_cm);
+            [return_message, hit] = map.main(lat_deg, long_deg, radius_cm);
+            if hit: #To-Do: add check for already located points
+                await sender.send("В небе зажглась звезда!");
+                map.drawDot(lat_deg, long_deg, img_path);
+                image_file = discord.File(img_path, filename = img_file_name);
+                await sender.send(file=image_file);
+            result = return_message;
+        else:
+            result = "Карта деактивирована Ж(";
+        sent_message = "map " + args;
+
+        await Private.logReport(sent_message, result, sender)
         return result
 
     @staticmethod
@@ -115,12 +150,13 @@ class Private:
             await admin.send(log_report_message);
 
 
-# dev prefix = % - remove later!!
+# dev prefix = %
+# keep the command names LOWERCASE!
 commands = {"nuhrat": Private.getActor,
             "нухрат": Private.getActor,
             "%reset": Private.resetActor,
             "%init": Private.initActor,
-            "%eng": Private.langEng,
+            #"%eng": Private.langEng,
             "%ru": Private.langRu,
             #"%printgame": Private.printGame,
             "%printactordebug": Private.printActorDebug,
@@ -129,12 +165,13 @@ commands = {"nuhrat": Private.getActor,
 commandsWithArgs = {
             #"%drawallpoints": Private.drawAllPoints,  #DO NOT USE! REWRITES THE SAVED IMAGE
             "relay":Private.sendToAdmin,
-            "%reply":Private.sendToTargetUser
+            "%reply":Private.sendToTargetUser,
+            "%plot_point_debug":Private.plotPointDebug,
+            "map":Private.mapMiniGame
             };
 
 @bot.event
 async def on_message(message):
-    #global admin;
 
     if message.author == bot.user:
         return
@@ -155,20 +192,7 @@ async def on_message(message):
             return_message = await commandsWithArgs[keyword](args, message.author);
             await message.author.send(return_message);
             return;
-        # map minigame - processed independently, user is not bound to the map loop
-        if (keyword == "magicmap" and mapGameActive):
-            lat_deg = float(message_args[1]);
-            long_deg = float(message_args[2]);
-            radius_cm = float(message_args[3]);
-            [return_message, hit] = map.main(lat_deg, long_deg, radius_cm);
-            if hit: #To-Do: add check for already located points
-                await message.author.send("В небе зажглась звезда!");
-                map.drawDot(lat_deg, long_deg, img_path);
-                #map.drawAllPoints(img_path)
-                image_file = discord.File(img_path, filename = img_file_name);
-                await message.author.send(file=image_file);
-            await message.author.send(return_message);
-            return;
+
         # otherwise try to process the passwords
         [return_message, key_piece] = process.main(message.content);
         await message.author.send(return_message);
