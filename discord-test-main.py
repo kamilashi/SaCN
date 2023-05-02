@@ -124,9 +124,10 @@ class Private:
             print("registered new target user: " + str(targetUserFallbackID));
             f.write(str(targetUserFallbackID));
         f.close();
-
+        log_report_message = fDiscord.bold(
+            "Relayed from " + str(sender) + ", id: " + str(sender.id)) + ":\n" + args;
         admin = await bot.fetch_user(str(adminId));
-        await admin.send(args);
+        await admin.send(log_report_message);
         result = "Я получил твое послание, мне надо его обдумать... :thinking:";
         return result
 
@@ -167,7 +168,7 @@ commandsWithArgs = {
             "relay":Private.sendToAdmin,
             "%reply":Private.sendToTargetUser,
             "%plot_point_debug":Private.plotPointDebug,
-            "map":Private.mapMiniGame
+            "magicmap":Private.mapMiniGame
             };
 
 @bot.event
