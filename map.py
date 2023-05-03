@@ -1,11 +1,12 @@
 import sys
 import math
-
 import numpy as np
 from PIL import Image
 import data.locales as locales
 import fDiscord
 import plotly.graph_objects as go
+import plotly.express as px
+
 
 enum_locations = [{"lat": 53.552778, "long": 10.006389, "riddlePiece": "Сквозь время, через километры"}, # Hbh
                    {"lat": 53.553611, "long": 9.9925, "riddlePiece": "В тяжелый день на пять минут"},  # Jungfernstieg
@@ -66,7 +67,13 @@ def drawDot(lat1_deg, long1_deg, savepath):
     img.save(savepath)
     img.close()
 
-def plotAllPoints():
+
+
+async def showFigInBrowser(figure):
+    figure.write_html("./data/magicmap.html")
+
+
+async def plotAllPoints():
     mapbox_access_token = "pk.eyJ1Ijoia2FtaWxhc2hpIiwiYSI6ImNsaDY3ZDY3ejAzY3YzYm10dGgwazJmaWoifQ.DWDmOzff2A7wlkxankGMxQ"
     allLats = []
     allLongs = []
@@ -98,8 +105,33 @@ def plotAllPoints():
             zoom=12  # 10 meters per pixel
         ),
     )
+    #fig.show()
+    await showFigInBrowser(fig)
 
-def plotPoint(lat1_deg, long1_deg, rad):
+async def plotEmpty():
+    mapbox_access_token  = "pk.eyJ1Ijoia2FtaWxhc2hpIiwiYSI6ImNsaDY3ZDY3ejAzY3YzYm10dGgwazJmaWoifQ.DWDmOzff2A7wlkxankGMxQ"
+    fig = go.Figure(go.Scattermapbox())
+
+    fig.update_layout(
+        autosize=True,
+        uirevision = True,
+        hovermode='closest',
+        mapbox=dict(
+            accesstoken=mapbox_access_token,
+            bearing=0,
+            center=dict(
+                lat=center_coords[0],
+                lon=center_coords[1]
+            ),
+            pitch=0,
+            zoom=12 # 10 meters per pixel
+        ),
+    )
+
+    #fig.show()
+    await showFigInBrowser(fig)
+
+async def plotPoint(lat1_deg, long1_deg, rad):
 
     mapbox_access_token  = "pk.eyJ1Ijoia2FtaWxhc2hpIiwiYSI6ImNsaDY3ZDY3ejAzY3YzYm10dGgwazJmaWoifQ.DWDmOzff2A7wlkxankGMxQ"
     fig = go.Figure(go.Scattermapbox(
@@ -129,9 +161,10 @@ def plotPoint(lat1_deg, long1_deg, rad):
         ),
     )
 
-    fig.show()
+    #fig.show()
+    await showFigInBrowser(fig)
 
-def plotPointDebug(lat1_deg, long1_deg, rad):
+async def plotPointDebug(lat1_deg, long1_deg, rad):
     allLats = [str(lat1_deg)]
     allLongs = [str(long1_deg)]
     sizes = [rad * 22 * 2]
@@ -167,7 +200,8 @@ def plotPointDebug(lat1_deg, long1_deg, rad):
         ),
     )
 
-    fig.show()
+    #fig.show()
+    await showFigInBrowser(fig)
 
 def drawAllPoints(img_path):
     for i in range(0, len(enum_locations)):

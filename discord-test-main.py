@@ -19,6 +19,10 @@ bot = commands.Bot(command_prefix='$', intents=intents);
 mapGameActive = True; #for testing
 img_file_name = "image.jpg"
 img_path = "./data/" + img_file_name;
+html_map_name = "magicmap.html";
+html_map_path = "./data/" + html_map_name;
+
+localhost = "http://kamilashi.pythonanywhere.com/magicmap/mapplot.html"
 
 adminId = "349070619566014464";
 #targetUserFallbackID = None;#"895246650187087924";
@@ -70,6 +74,11 @@ class Private:
         return "image deleted"
 
     @staticmethod
+    def deleteHTML():
+        os.remove(html_map_path);
+        return "html deleted"
+
+    @staticmethod
     async def drawAllPoints(args, sender):
         map.drawAllPoints(img_path);
         image_file = discord.File(img_path, filename=img_file_name);
@@ -82,13 +91,28 @@ class Private:
         return result
 
     @staticmethod
+    async def sendHTMLmap(args, sender):
+        if not(os.path.exists(html_map_path)):
+            await map.plotEmpty();
+
+        html_file = discord.File(html_map_path, filename = html_map_name);
+        await sender.send(file=html_file);
+        return_message = "Открой меня!"
+        #return_message = "Карте нужны координаты :wink: "
+        result = return_message;
+        sent_message = "keyword " + args;
+        await Private.logReport(sent_message, result, sender)
+        return result
+
+    @staticmethod
     async def plotPointDebug(args, sender):
         argsArray = args.split(" ");
         lat_deg = float(argsArray[0]);
         long_deg = float(argsArray[1]);
         radius_cm = float(argsArray[2]);
-        map.plotPointDebug(lat_deg, long_deg, radius_cm);
+        await map.plotPointDebug(lat_deg, long_deg, radius_cm);
         [return_message, hit] = map.main(lat_deg, long_deg, radius_cm);
+        #await sender.send(localhost);
         result = "Debug full map\n\n";
         result += fDiscord.bold("Return Message:") + "\n" + str(return_message) + "\n";
         result += fDiscord.bold("Hit:") + "\n" + str(hit);
@@ -101,7 +125,8 @@ class Private:
             lat_deg = float(argsArray[0]);
             long_deg = float(argsArray[1]);
             radius_cm = float(argsArray[2]);
-            map.plotPoint(lat_deg, long_deg, radius_cm);
+            #await sender.send(localhost);
+            await map.plotPoint(lat_deg, long_deg, radius_cm);
             [return_message, hit] = map.main(lat_deg, long_deg, radius_cm);
             if hit: #To-Do: add check for already located points
                 await sender.send("В небе зажглась звезда!");
@@ -111,7 +136,7 @@ class Private:
             result = return_message;
         else:
             result = "Карта деактивирована Ж(";
-        sent_message = "map " + args;
+        sent_message = "magicmap " + args;
 
         await Private.logReport(sent_message, result, sender)
         return result
@@ -161,13 +186,15 @@ commands = {"nuhrat": Private.getActor,
             "%ru": Private.langRu,
             #"%printgame": Private.printGame,
             "%printactordebug": Private.printActorDebug,
-            "%resetimage": Private.deleteImage
+            "%resetimage": Private.deleteImage,
+            "%resethtml": Private.deleteHTML
             };
 commandsWithArgs = {
             #"%drawallpoints": Private.drawAllPoints,  #DO NOT USE! REWRITES THE SAVED IMAGE
             "relay":Private.sendToAdmin,
             "%reply":Private.sendToTargetUser,
-            "%plot_point_debug":Private.plotPointDebug,
+            "%plotpointdebug":Private.plotPointDebug,
+            "magicmagicmap":Private.sendHTMLmap,
             "magicmap":Private.mapMiniGame
             };
 
