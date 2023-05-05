@@ -249,4 +249,4 @@ def main(lat1_deg, long1_deg, radius_cm):
 
 
 if __name__ == "__main__":
-    main(sys.argv[1]);
+    main(sys.argv[1],sys.argv[2],sys.argv[3]);

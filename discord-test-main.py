@@ -9,6 +9,7 @@ import process
 import map
 from discord.ext import commands
 import fDiscord
+import debug
 
 
 
@@ -67,6 +68,7 @@ class Private:
     def printActorDebug():
         result = process.actorToStringDebug();
         return result
+
 
     @staticmethod
     def deleteImage():
