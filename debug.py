@@ -12,7 +12,7 @@ If you push on and stay on track\n\
 But while you're here you might as well\n\
 Enjoy my taste and pleasant smell"
 
-riddleCiphered =   "11:173 35:410 16:213 6:138 35:54 37:30 14:215 107:437 \n\
+riddleCiphered =   "11:173 35:410 16:216 6:138 35:54 37:30 14:215 107:437 \n\
 40:362 61:115 61:169 61:170 9:86 31:26 \n\
 100:25 countless 9:182 47:242 16:344 18:342 22:77\n\
 6:331 18:102 16:225, 9:151 107:420 100:39 \n\
@@ -171,26 +171,25 @@ def findWord(newWord):
 
 
 analyzeRiddleText()
-getWord(79) #change or target
-getWord(40) #target
-getWord(31) #taste
-getWord(67) #one word but at top
-getWord(100) #target
-getWord(107) #target
-getWord(109) #target
-getWord(18) #target
-getWord(6) #
-getWord(72) #
-getWord(9) #
+# getWord(79) #change or target
+# getWord(40) #target
+# getWord(31) #taste
+# getWord(67) #one word but at top
+# getWord(100) #target
+# getWord(107) #target
+# getWord(109) #target
+# getWord(18) #target
+# getWord(6) #
+# getWord(72) #
+# getWord(9) #
 # (23) #target
 # 35 target
 #18 target
 #72) #target
 
-getPage("and")
+# getPage("and")
 
 
-half = 7
 createArrays()
 #print(len(pagesOnDrive))
 #findWord("it'd")
