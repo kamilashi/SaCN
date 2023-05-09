@@ -12,30 +12,28 @@ If you push on and stay on track\n\
 But while you're here you might as well\n\
 Enjoy my taste and pleasant smell"
 
-riddleCiphered =   "11:173 35:410 16:216 6:138 35:54 37:30 14:215 107:437 \n\
-40:362 61:115 61:169 61:170 9:86 31:26 \n\
-100:25 countless 9:182 47:242 16:344 18:342 22:77\n\
-6:331 18:102 16:225, 9:151 107:420 100:39 \n\
-22:452 9:59 11:178 47:227, it'd 37:68 72:303\n\
-\"Hey 11:56, 23:113 16:7 23:63, 6:53 6:97 6:117\n\
-11:32 23:111 it's 9:304 107:320 31:102 72:163''''' 100:240\n\
-72:337 22:6 push 35:236 61:44 14:21 40:2 18:241\n\
-31:21 100:132 6:132 35:55 72:69 27:382 27:383 27:384\n\
-23:297`` 22:2 31:115 35:8 14:88 smell\""
+riddleCiphered =   "11:173 35:410 16:216 6:140 35:54 37:30 14:220 107:440 \n\
+40:399 61:115 61:171 61:172 9:86 31:26 \n\
+100:25 countless 9:186 47:248 16:344 18:345 22:78\n\
+6:126 22:111 16:228 9:1 107:423 100:40 \n\
+22:136 9:33 11:182 47:232 it'd 37:68 72:303\n\
+\"Hey 11:57 23:113 16:7 23:63 6:54 6:4 6:178\n\
+11:31 23:111 it's 9:307 107:320 31:102 72:163''''' 100:240\n\
+72:194 22:6 push 35:17 61:44 14:20 40:2 18:243\n\
+31:21 100:132 6:132 35:55 72:69 27:382 27:23 27:54\n\
+23:297`` 22:2 31:118 35:8 14:89 smell\""
+
+adjusted_riddle = ""
 
 def analyzeRiddleText():
     pages = []
-    #words = locales.ru.enum_riddles[3].split();
     words = riddleCiphered.split();
-    #print(words)
     for word in words:
         try:
             pages.append(int(word.split(":")[0]))
         except ValueError:
             pass
 
-    #pageNos = list(map(int, locales.eng.enum_riddles[3].split(" ").split(":")[0]));
-    #print(pages)
     returMessage = "All page numbers: \n"
     returMessage += str(pages) + "\n\n"
     returMessage += "Unique page numbers:\n"
@@ -51,7 +49,7 @@ def analyzeRiddleText():
     return( returMessage )
 
 
-def getWord(pageNo):
+def getWord(pageNo, wordNo=-1):
     words = riddleCiphered.split();
     orig_riddle_words = orig_riddle.split();
     wordsOnPage = []
@@ -62,12 +60,17 @@ def getWord(pageNo):
             page = (int(word.split(":")[0]))
             wordNumber = (int(word.split(":")[1]))
             if page == pageNo:
-                wordsOnPage.append(orig_riddle_words[i])
-                wordNos.append(wordNumber)
+                if {wordNo > 0 and wordNo == wordNumber} or wordNo < 0 :
+                    wordsOnPage.append(orig_riddle_words[i])
+                    wordNos.append(wordNumber)
+                    return str(orig_riddle_words[i])
         except ValueError:
             pass
+
+
         i += 1
     print(str(pageNo) + " : " + str(wordsOnPage) + " , under numbers " + str(wordNos))
+    return str(wordsOnPage)
 
 
 def getPage(wordSearched):
@@ -93,6 +96,7 @@ def getPage(wordSearched):
                 pass
         i += 1
     print(wordSearched + " : on pages " + str(pagesForWord) + " , under numbers " + str(wordNos))
+    return[pagesForWord, wordNos]
 
 
 def mapWords():
@@ -164,10 +168,12 @@ def findWord(newWord):
         for word in wordsOnPage:
             i += 1;
             if newWord.lower() == word.lower():
-                wordNos.append([str(i), str(key)]);
+                wordNos.append([ str(key), str(i)]);
 
-    for number_page in wordNos:
-        print("found # " + number_page[0] + " on page " + number_page[1])
+    for page_number in wordNos:
+        print("found on page " + page_number[0] + " # "+ page_number[1] )
+
+    return wordNos
 
 
 analyzeRiddleText()
@@ -192,12 +198,12 @@ analyzeRiddleText()
 
 createArrays()
 #print(len(pagesOnDrive))
-#findWord("it'd")
+
 
 
 def check():
-    wordlines = riddleCiphered.replace(",", "").replace("'", "").replace(".", "").splitlines();
-
+    wordlines = riddleCiphered.replace(",", "").replace(".", "").splitlines();
+    wordsSet = set(riddleCiphered.replace(",", "").replace(".", "").split());
     i = 0
     for line in wordlines:
         words = line.split()
@@ -207,13 +213,80 @@ def check():
                 i += 1
                 if len(page_and_number) > 1:
                     pageNo = page_and_number[0]
-                    wordNo = int(page_and_number[1])-1
+                    wordNo = int(page_and_number[1])-1 #convert to index
                     print(str(pagesOnDrive.get(pageNo)[wordNo]) + " ", end=" ")
                 else:
                     print(" [" + page_and_number[0] + "] ", end=" ")
             except ValueError:
                 i += 1
-
         print("\n")
+    print("\n words: " + str(len(riddleCiphered.replace(",", "").replace(".", "").split())))
+    print("\n unique words: " + str(len(wordsSet)))
+
+def adjust():
+    global adjusted_riddle
+    wordlines = orig_riddle.replace(",", "").replace(".", "").splitlines();
+    ciphered_words = riddleCiphered.replace(",", "").replace(".", "").split();
+    pageNos = []
+    for c_word in ciphered_words:
+        pageNos.append(c_word.split(":")[0])
+
+    i = 0
+    for line in wordlines:
+        words = line.split()
+        for word in words:
+            wordReference = word
+            pageNo = pageNos[i]
+            i+=1
+            #print(wordReference + " at " + str(pageNo) + ":" + str(wordNo+1))
+            foundNewWord = False
+            foundWordsPage_No = findWord(wordReference)
+            for wordCandidatePage_No in foundWordsPage_No:
+                if wordCandidatePage_No[0] == pageNo:
+                    adjusted_riddle += str(pageNo) + ":" + str(wordCandidatePage_No[1]) + " "
+                    foundNewWord = True
+                    break
+            if not foundNewWord:
+                adjusted_riddle += " [" + str(pageNo) + ":" + str(-000) + "] "
+
+        adjusted_riddle += "\n"
+
+def adjust2():
+    global adjusted_riddle
+    rangeCount = 15
+    wordlines = riddleCiphered.replace(",", "").replace(".", "").splitlines();
+    i = 0
+    for line in wordlines:
+        words = line.split()
+        for word in words:
+            try:
+                page_and_number = word.split(":")
+                i += 1
+                if len(page_and_number) > 1:
+                    pageNo = page_and_number[0]
+                    wordNo = int(page_and_number[1]) - 1
+                    wordReference = getWord(int(pageNo), wordNo+1)
+                    #print(wordReference + " at " + str(pageNo) + ":" + str(wordNo+1))
+                    foundNewWord = False
+                    for j in range(max(wordNo-rangeCount,0), min(wordNo+rangeCount, len(pagesOnDrive.get(pageNo))-1)):
+                        wordCandidateIndex = j
+                        if(str(pagesOnDrive.get(pageNo)[wordCandidateIndex]).lower() == wordReference.lower()):
+                            # if found first occurrence:
+                            adjusted_riddle += str(pageNo) + ":" + str(wordCandidateIndex + 1) + " "
+                            foundNewWord = True
+                            break
+                    if not foundNewWord:
+                        adjusted_riddle += str(pageNo) + ":" + str(-000) + " "
+                else:
+                    adjusted_riddle += " [" + page_and_number[0] + "] "
+            except ValueError:
+                i += 1
+
+        adjusted_riddle += "\n"
 #map()
+
+#getWord(11,173)
+#adjust()
+print(adjusted_riddle)
 check()
+findWord("If")

@@ -30,8 +30,7 @@ class eng:
 
 class ru:
     enum_attributes = ['проницательность', 'опыт', 'адаптивность', 'анализ', 'упорство', 'любовь', 'сила воли'];
-    #enum_passwords = ['лормастер', 'слово', 'квинт', 'момент', 'кофе', 'судьба', 'да'];
-    enum_passwords = [['лормастер','loremaster'], ['слово','word'], ['квинт','kvint'], ['момент','moment','день','day'], ['кофе','coffee'], ['судьба','судьбу'], ['да','yes']];
+    enum_passwords = [['лормастер','loremaster'], ['слово','word'], ['квинт','kvint'], ['момент','moment','день','day'], ['кофе','coffee'], ['судьба','судьбу'], ['да','yes','да!','yes!','готов']];
     enum_entry_text = [
     "Приветствую, Путник, я ждал тебя!\n\
 Я чувствую страсть к путешествиям в твоих глазах и мужество в твоем сердце. Я Мастер Щифров,\n\
@@ -95,19 +94,19 @@ class ru:
 
                     "Обитель есть, друзей отважных\n\
 Руками их сотворена...",
-                    
+
                     "Для этого, тебе понадобится заклинание magicmap и циркуль :wink:",
 
-                    "19:382 35:409 36:250 6:138 35:54 37:30 39:263 42:212, \n\
-40:362 61:115 61:169 61:170 67:11 79:413 \n\
-81:79 countless 9:182 it's seen you tired\n\
-Eyes half-asleep, your drive expired \n\
-If it could talk, it'd likely say\n\
-\"Hey friend, I'm with you, all the way\n\
-I know it's hard but it pays back\n\
-If you push on and stay on track\n\
-But while you're here you might as well\n\
-Enjoy my taste and pleasant smell\"",
+                    "11:173 35:410 16:216 6:140 35:54 37:30 14:220 107:440 \n\
+40:399, but 61:171 61:172 9:86 31:26 \n\
+100:25 countless 9:186 47:248 16:344 18:345 22:78\n\
+6:126 22:111 16:228 9:1 107:423 100:40 \n\
+If 9:33 11:182 47:232 it'd 37:68 72:303\n\
+\"Hey 11:57 23:113 16:7 23:63 6:54 6:4 6:178\n\
+11:31 23:111 it's 9:307 107:320 31:102 pays 100:240\n\
+72:194 22:6 push 35:17 61:44 14:20 40:2 18:243\n\
+31:21 100:132 6:132 35:55 72:69 27:382 27:23 27:54\n\
+23:297`` 22:2 31:118 35:8 14:89 smell\"",
 
                     "Карты, кости, игры шанса \n\
 У меня свои пасьянсы \n\
@@ -127,13 +126,6 @@ https://accounts.google.com/v3/signin/challenge/pwd?TL=AG7eRGAXyA_HWBaEgoQckjJU-
                     ];
     enum_key_pieces = ['p', 'i', 'ec', 'eo', 'fc', 'a', 'ke'];
 
-
-# Notes in the sketchbook:
-# sketch of the target location in minecraft
-# Momento di restaurant in Hamburg hint in sketchbook
-# MOMENTUM Deichstraße 41, 20459 Hamburg
-# command for the song check-in
-# password protected folder
 
 # Chapter names:
 # audeamus - let us dare

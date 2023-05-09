@@ -12,7 +12,6 @@ import fDiscord
 import debug
 
 
-
 intents = discord.Intents.default()
 intents.members = True
 intents.message_content = True
@@ -35,6 +34,10 @@ class Private:
     @staticmethod
     def getActor():
         result = process.actorToString()
+        return result;
+    @staticmethod
+    def respondMax():
+        result = "Да, но не совсем.\n\Имя персонажа :wink: "
         return result;
 
     @staticmethod
@@ -69,6 +72,10 @@ class Private:
         result = process.actorToStringDebug();
         return result
 
+    @staticmethod
+    def debugBookCipher():
+        result = debug.analyzeRiddleText();
+        return result
 
     @staticmethod
     def deleteImage():
@@ -118,6 +125,16 @@ class Private:
         result = "Debug full map\n\n";
         result += fDiscord.bold("Return Message:") + "\n" + str(return_message) + "\n";
         result += fDiscord.bold("Hit:") + "\n" + str(hit);
+        return result
+
+    @staticmethod
+    async def getPageNumber(args, sender):
+        argsArray = args.split(" ");
+        x = float(argsArray[0]);
+        x_perc = (x-6)/119.0;
+        y = x_perc*105;
+        y = y + 5;
+        result = str(y) + " +- 1 "
         return result
 
     @staticmethod
@@ -182,8 +199,11 @@ class Private:
 # keep the command names LOWERCASE!
 commands = {"nuhrat": Private.getActor,
             "нухрат": Private.getActor,
+            "макс": Private.respondMax,
+            "max": Private.respondMax,
             "%reset": Private.resetActor,
             "%init": Private.initActor,
+            "%debugbookcipher": Private.debugBookCipher,
             #"%eng": Private.langEng,
             "%ru": Private.langRu,
             #"%printgame": Private.printGame,
@@ -197,7 +217,8 @@ commandsWithArgs = {
             "%reply":Private.sendToTargetUser,
             "%plotpointdebug":Private.plotPointDebug,
             "magicmagicmap":Private.sendHTMLmap,
-            "magicmap":Private.mapMiniGame
+            "magicmap":Private.mapMiniGame,
+            "%getpageno":Private.getPageNumber
             };
 
 @bot.event
